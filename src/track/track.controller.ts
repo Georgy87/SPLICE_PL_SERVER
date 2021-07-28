@@ -18,16 +18,17 @@ import { TrackService } from './track.service';
 export class TrackController {
     constructor(private trackService: TrackService) {}
 
-    @Post()
-    @UseInterceptors(
-        FileFieldsInterceptor([
-            { name: 'picture', maxCount: 1 },
-            { name: 'audio', maxCount: 1 },
-        ]),
-    )
-    create(@UploadedFiles() files, @Body() dto: CreateTrackDto) {
-        const { picture, audio } = files;
-
-        return this.trackService.create(dto, picture[0], audio[0]);
+    // @Post()
+    // @UseInterceptors(
+    //     FileFieldsInterceptor([
+    //         { name: 'picture', maxCount: 1 },
+    //         { name: 'audio', maxCount: 1 },
+    //     ]),
+    // )
+    @Get() 
+    test() {
+        // const { picture, audio } = files;
+        console.log('Запрос!');
+        // return this.trackService.create(dto, picture[0], audio[0]);
     }
 }

@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 
-import { CreateTrackDto } from './dto/create-track.dto';
+import { CreatePackDto } from './dto/create-pack.dto';
 import { PackService } from './pack.service';
 
 @Controller('/api')
@@ -25,10 +25,9 @@ export class PackController {
         ]),
     )
     @Post() 
-    create(@UploadedFiles() files, @Body() body: any) {
+    create(@UploadedFiles() files, @Body() dto: CreatePackDto) {
         const { picture, audio } = files;
-        console.log(picture[0], audio[0]);
-        console.log(body);
-        // return this.trackService.create(dto, picture[0], audio[0]);
+        
+        return this.trackService.create(dto, picture[0], audio[0]);
     }
 }

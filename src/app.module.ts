@@ -4,18 +4,18 @@ import * as path from 'path';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { FileModule } from './file/file.module';
-import { PackModule } from './track/pack.module';
+import { PackModule } from './pack/pack.module';
 
 @Module({
     imports: [
-        // ServeStaticModule.forRoot({
-        //     rootPath: path.resolve(__dirname, 'static'),
-        // }),
-        // MongooseModule.forRoot(
-        //     'mongodb+srv://admin:1987toyuiui@cluster0.erfjs.mongodb.net/SPLICE?retryWrites=true&w=majority',
-        // ),
+        ServeStaticModule.forRoot({
+            rootPath: path.resolve(__dirname, 'static'),
+        }),
+        MongooseModule.forRoot(
+            'mongodb+srv://admin:1987toyuiui@cluster0.erfjs.mongodb.net/SPLICE?retryWrites=true&w=majority',
+        ),
         PackModule,
         FileModule,
     ],
 })
-export class AppModule {}
+export class AppModule {};

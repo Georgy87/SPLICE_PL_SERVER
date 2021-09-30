@@ -16,19 +16,26 @@ export class PackService {
     ) {}
 
     async create(dto: CreatePackDto, picture, audio) {
+        
         const audioPath = this.fileService.createFile(FileType.AUDIO, audio);
         const picturePath = this.fileService.createFile(
             FileType.IMAGE,
             picture,
         );  
-        
-        const track = await this.packModel.create({
+      
+        await this.packModel.create({
             ...dto,
             listens: 0,
             audio: audioPath,
             picture: picturePath,
         });
         
-        return track;
+        const packs = await this.packModel.find();
+        return packs;
+    }
+
+    async show() {
+        const packs = await this.packModel.find();
+        return packs;
     }
 }

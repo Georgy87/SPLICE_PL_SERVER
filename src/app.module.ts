@@ -5,10 +5,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { FileModule } from './file/file.module';
 import { PackModule } from './pack/pack.module';
+import { SamplesModule } from './samples/samples.module';
 
 @Module({
     imports: [
-        ServeStaticModule.forRoot({
+
+    ServeStaticModule.forRoot({
             rootPath: path.resolve(__dirname, 'static'),
         }),
         MongooseModule.forRoot(
@@ -16,6 +18,7 @@ import { PackModule } from './pack/pack.module';
         ),
         PackModule,
         FileModule,
+        SamplesModule,
     ],
 })
 export class AppModule {};

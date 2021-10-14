@@ -14,4 +14,4 @@ import { Samples, SamplesSchema } from './schema/samples.schema';
 	controllers: [SamplesController],
 	providers: [SamplesService, FileService],
 })
-export class PackModule {}
+export class SamplesModule {}

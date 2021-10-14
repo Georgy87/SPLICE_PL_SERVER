@@ -15,8 +15,7 @@ export class PackService {
         private fileService: FileService,
     ) {}
 
-    async create(dto: CreatePackDto, picture, audio) {
-        
+    async create(dto: CreatePackDto, picture: Express.Multer.File, audio: Express.Multer.File) {
         const audioPath = this.fileService.createFile(FileType.AUDIO, audio);
         const picturePath = this.fileService.createFile(
             FileType.IMAGE,

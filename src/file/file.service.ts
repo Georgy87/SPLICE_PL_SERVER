@@ -6,12 +6,13 @@ import * as uuid from 'uuid';
 export enum FileType {
     AUDIO = 'audio',
     IMAGE = 'image',
+    SAMPLES = 'samples',
 }
 
 @Injectable()
 export class FileService {
-    createFile(type, file): string {
-        try {
+    createFile(type: string, file: Express.Multer.File): string {
+        try {         
             const fileExtension = file.originalname.split('.').pop();
             const fileName = uuid.v4() + '.' + fileExtension;
             const filePath = path.resolve(__dirname, '..', 'static', type);

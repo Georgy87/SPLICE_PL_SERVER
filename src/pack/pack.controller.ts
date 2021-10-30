@@ -16,7 +16,7 @@ import { PackService } from './pack.service';
 
 @Controller('/api')
 export class PackController {
-	constructor(private trackService: PackService) {}
+	constructor(private packService: PackService) {}
 
 	@Post('pack')
 	@UseInterceptors(
@@ -27,11 +27,16 @@ export class PackController {
 	create(@UploadedFiles() files, @Body() dto: CreatePackDto) {
 		const { picture, audio } = files;
 	
-		return this.trackService.create(dto, picture?.[0], audio?.[0]);
+		return this.packService.create(dto, picture?.[0], audio?.[0]);
+	}
+
+	@Get('packs')
+	async show() {
+        return this.packService.show();
 	}
 
 	@Get('pack')
-	async show() {
-        return this.trackService.show();
+	async getPack(@Query('packId') packId: string ) {
+        return this.packService.getPack(packId);
 	}
 }

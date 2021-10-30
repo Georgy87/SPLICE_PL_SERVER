@@ -17,3 +17,4 @@ export class Samples {
 }
 
 export const SamplesSchema = SchemaFactory.createForClass(Samples);
+

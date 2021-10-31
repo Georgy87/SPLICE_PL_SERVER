@@ -21,7 +21,7 @@ import { UsersModule } from './users/users.module';
         FileModule,
         SamplesModule,
         AuthModule,
-        // UsersModule,
+        UsersModule,
     ],
 })
 export class AppModule {};

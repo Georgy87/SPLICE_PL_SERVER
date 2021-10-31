@@ -1,26 +1,32 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
+
+import { UsersService } from 'src/users/users.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { User, UserDocument } from '../users/schema/user.schema';
 
 @Injectable()
 export class AuthService {
 	constructor(
+		@InjectModel(User.name) private userModel: Model<UserDocument>,
 		private usersService: UsersService,
 		private jwtService: JwtService,
 	) {}
 
-	async validateUser(username: string, pass: string): Promise<any> {
-		const user = await this.usersService.findOne(username);
-		if (user && user.password === pass) {
+	async validateUser(email: string, password: string): Promise<any> {
+		const user = await this.usersService.findByCond({ email, password });
+
+		if (user && user.password === password) {
 			const { password, ...result } = user;
 			return result;
 		}
 		return null;
 	}
 
-	generateJwtToken(data: { id: number; email: string }) {
-		const payload = { email: data.email, sub: data.id };
+	generateJwtToken(data: { email: string }) {
+		const payload = { email: data.email };
 		return this.jwtService.sign(payload);
 	}
 
@@ -34,16 +40,18 @@ export class AuthService {
 
 	async register(dto: CreateUserDto) {
 		try {
-			// const { password, ...userData } = await this.userService.create({
-			// 	email: dto.email,
-			// 	fullName: dto.fullName,
-			// 	password: dto.password,
-			// });
+			const { email, fullName, password } = dto;
 
-			// return {
-			// 	...userData,
-			// 	token: this.generateJwtToken(userData),
-			// };
+			const user = await this.userModel.create({
+				email,
+				fullname: fullName,
+				password,
+			});
+
+			return {
+				user,
+				token: this.generateJwtToken(user),
+			};
 		} catch (err) {
 			throw new ForbiddenException('Ошибка при регистрации');
 		}

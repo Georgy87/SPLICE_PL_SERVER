@@ -11,7 +11,6 @@ import { UsersModule } from './users/users.module';
 
 @Module({
     imports: [
-
     ServeStaticModule.forRoot({
             rootPath: path.resolve(__dirname, 'static'),
         }),
@@ -22,7 +21,7 @@ import { UsersModule } from './users/users.module';
         FileModule,
         SamplesModule,
         AuthModule,
-        UsersModule,
+        // UsersModule,
     ],
 })
 export class AppModule {};

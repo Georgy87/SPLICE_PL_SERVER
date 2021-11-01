@@ -1,19 +1,32 @@
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+
 import { AuthService } from '../auth.service';
+import { UsersService } from 'src/users/users.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-	constructor(private authService: AuthService) {
+	constructor(
+		private usersService: UsersService,
+	) {
 		super({ usernameField: 'email' });
 	}
 
 	async validate(email: string, password: string): Promise<any> {
-		const user = await this.authService.validateUser(email, password);
-		if (!user) {
-			throw new UnauthorizedException('Неверный логин или пароль');
+		const user = await this.usersService.findByCond({ email });
+		const isPassValid = bcrypt.compareSync(password, user.password);
+	
+		if (isPassValid) {
+			return {
+				user,
+			};
 		}
-		return user;
+	
+		throw new UnauthorizedException({
+			message: 'Некорректный пароль пользователя!',
+		});
 	}
 }

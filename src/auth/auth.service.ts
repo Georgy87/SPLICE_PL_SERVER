@@ -3,6 +3,7 @@ import {
 	HttpException,
 	HttpStatus,
 	Injectable,
+	UnauthorizedException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -17,32 +18,8 @@ import { User, UserDocument } from '../users/schema/user.schema';
 export class AuthService {
 	constructor(
 		@InjectModel(User.name) private userModel: Model<UserDocument>,
-		private usersService: UsersService,
 		private jwtService: JwtService,
 	) {}
-
-	async validateUser(email: string, password: string): Promise<any> {
-		const user = await this.usersService.findByCond({ email, password });
-
-		if (user && user.password === password) {
-			const { password, ...result } = user;
-			return result;
-		}
-		return null;
-	}
-
-	generateJwtToken(data: { email: string }) {
-		const payload = { email: data.email };
-		return this.jwtService.sign(payload);
-	}
-
-	async login(user: any) {
-		const { password, ...userData } = user;
-		return {
-			...userData,
-			token: this.generateJwtToken(userData),
-		};
-	}
 
 	async register(dto: CreateUserDto) {
 		try {
@@ -65,14 +42,37 @@ export class AuthService {
 			});
 
 			user.confirm_hash = await bcrypt.hash(new Date().toString(), 8);
+			const data = await user.save();
 
 			return {
-				user,
+				data,
 				token: this.generateJwtToken(user),
 			};
-			
 		} catch (err) {
 			throw new ForbiddenException('Ошибка при регистрации');
 		}
+	}
+
+	private generateJwtToken(data: { email: string }) {
+		const payload = { email: data.email };
+		return this.jwtService.sign(payload);
+	}
+
+	async login(user: any) {
+		const token = this.generateJwtToken(user);
+	
+		return {
+			user,
+			token,
+		}
+	}
+
+	async auth(userId: string) {
+		const user = await this.userModel
+			.findOne({ _id: userId })
+			.select('-password');
+		const token = this.jwtService.sign({ id: user.id });
+
+		return { token, user };
 	}
 }

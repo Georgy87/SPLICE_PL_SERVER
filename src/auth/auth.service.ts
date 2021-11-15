@@ -6,7 +6,7 @@ import {
 	UnauthorizedException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
@@ -24,7 +24,7 @@ export class AuthService {
 	async register(dto: CreateUserDto) {
 		try {
 			const { email, fullname, password } = dto;
-
+			console.log(email, fullname, password)
 			const candidate = await this.userModel.findOne({ email, fullname });
 
 			if (candidate) {
@@ -46,20 +46,30 @@ export class AuthService {
 
 			return {
 				data,
-				token: this.generateJwtToken(user),
+				token: this.generateJwtToken(data._id),
 			};
 		} catch (err) {
 			throw new ForbiddenException('Ошибка при регистрации');
 		}
 	}
 
-	private generateJwtToken(data: { email: string }) {
-		const payload = { email: data.email };
+	private generateJwtToken(data: { _id: string }) {
+		const payload = { id: data._id };
 		return this.jwtService.sign(payload);
 	}
 
-	async login(user: any) {
-		const token = this.generateJwtToken(user);
+	async login(dto: CreateUserDto) {
+		const { email } = dto;
+        const user = await this.userModel.findOne({ email });
+        
+        if (!user) {
+            throw new HttpException(
+                'Пользователь не найден',
+                HttpStatus.NOT_FOUND,
+            );
+        }
+
+		const token = this.generateJwtToken(user._id);
 	
 		return {
 			user,
@@ -71,7 +81,7 @@ export class AuthService {
 		const user = await this.userModel
 			.findOne({ _id: userId })
 			.select('-password');
-		const token = this.jwtService.sign({ id: user.id });
+		const token = this.generateJwtToken(user._id);
 
 		return { token, user };
 	}

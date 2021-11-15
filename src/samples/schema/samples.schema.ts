@@ -14,6 +14,9 @@ export class Samples {
 
 	@Prop()
 	audio: string;
+
+	@Prop()
+	dataAudio: number[];
 }
 
 export const SamplesSchema = SchemaFactory.createForClass(Samples);

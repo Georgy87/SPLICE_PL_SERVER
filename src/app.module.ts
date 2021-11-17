@@ -8,6 +8,7 @@ import { PackModule } from './pack/pack.module';
 import { SamplesModule } from './samples/samples.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { AudioModule } from './audio/audio.module';
 
 @Module({
     imports: [
@@ -22,6 +23,7 @@ import { UsersModule } from './users/users.module';
         SamplesModule,
         AuthModule,
         UsersModule,
+        AudioModule,
     ],
 })
 export class AppModule {};

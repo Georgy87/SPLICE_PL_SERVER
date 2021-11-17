@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { FileService } from 'src/file/file.service';
+import { AudioService } from '../audio/audio.service';
+
+import { FileService } from '../file/file.service';
 import { SamplesController } from './samples.controller';
 import { SamplesService } from './samples.service';
 import { Samples, SamplesSchema } from './schema/samples.schema';
@@ -12,6 +14,6 @@ import { Samples, SamplesSchema } from './schema/samples.schema';
 		]),
 	],
 	controllers: [SamplesController],
-	providers: [SamplesService, FileService],
+	providers: [SamplesService, FileService, AudioService],
 })
 export class SamplesModule {}

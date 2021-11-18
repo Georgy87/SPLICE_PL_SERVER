@@ -8,36 +8,33 @@ import { AudioService } from '../audio/audio.service';
 import { FileService, FileType } from '../file/file.service';
 import { Samples, SamplesDocument } from './schema/samples.schema';
 
-
 @Injectable()
 export class SamplesService {
 	constructor(
 		@InjectModel(Samples.name) private samplesModel: Model<SamplesDocument>,
 		private fileService: FileService,
-		private audioSrvice: AudioService,
+		private audioService: AudioService,
 	) {}
 
 	async create(files: Array<Express.Multer.File>, packId: string) {
 		files.forEach(async (file: Express.Multer.File) => {
-
-			const audioPath: string = this.fileService.createFile(
-				FileType.SAMPLES,
-				file,
-			);
+			const audioPath: string = this.fileService.createFile(FileType.SAMPLES, file);
 
 			const context = new AudioContext();
 
-			context.decodeAudioData(file.buffer, async(buffer) => {
-				const audioCoordinates = await this.audioSrvice.sampleAudioData(buffer);
-				console.log(audioCoordinates);
+			context.decodeAudioData(file.buffer, async (buffer) => {
+				const audioCoordinates = this.audioService.sampleAudioData(buffer);
+
+				let duration = await this.audioService.getAudioDuration(`http://localhost:5000/${audioPath}`);
+		
+				this.samplesModel.create({
+					sampleName: file.originalname,
+					packId,
+					audio: audioPath,
+					audioCoordinates,
+					duration,
+				});
 			});
-			
-			// this.samplesModel.create({
-			// 	sampleName: file.originalname,
-			// 	packId,
-			// 	audio: audioPath,
-			// 	// dataAudio: data,
-			// });
 		});
 	}
 }

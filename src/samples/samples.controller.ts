@@ -18,7 +18,10 @@ export class SamplesController {
 
 	@Post('samples')
 	@UseInterceptors(FilesInterceptor('files'))
-	uploadFile(@UploadedFiles() files: Array<Express.Multer.File>, @Query('packId') packId: string) {
+	uploadFile(
+		@UploadedFiles() files: Array<Express.Multer.File>,
+		@Query('packId') packId: string,
+	) {
 		return this.samplesService.create(files, packId);
 	}
 }

@@ -1,17 +1,20 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-
-import { Samples, SamplesDocument } from 'src/samples/schema/samples.schema';
-
-//@ts-ignore
-import { AudioContext } from 'web-audio-api';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { path as ffprobePath } from '@ffprobe-installer/ffprobe';
+import * as execa from 'execa';
 
 @Injectable()
 export class AudioService {
 	constructor() {}
 
-	filterData(audioBuffer: AudioBuffer) {
+	private getFFprobeWrappedExecution(input: string): execa.ExecaChildProcess {
+		const params = ['-v', 'error', '-show_format', '-show_streams'];
+
+		if (typeof input === 'string') {
+			return execa(ffprobePath, [...params, input]);
+		}
+	}
+
+	private filterData(audioBuffer: AudioBuffer) {
 		const rawData = audioBuffer.getChannelData(0);
 
 		const samples = 20000;
@@ -30,14 +33,22 @@ export class AudioService {
 		return filteredData;
 	}
 
-	normalizeData(filteredData: number[]) {
+	private normalizeData(filteredData: number[]) {
 		const multiplier = Math.pow(Math.max(...filteredData), -1);
-		const data = filteredData.map((n: number) => n * multiplier);
-
-		return data;
+		return filteredData.map((n: number) => n * multiplier);
 	}
 
-	async sampleAudioData(buffer) {
+	sampleAudioData(buffer) {
 		return this.normalizeData(this.filterData(buffer));
+	}
+
+	async getAudioDuration(input: string): Promise<number> {
+		try {
+			const { stdout } = await this.getFFprobeWrappedExecution(input);
+			const matched = stdout.match(/duration="?(\d*\.\d*)"?/);
+			if (matched && matched[1]) return parseFloat(matched[1]);
+		} catch (error) {
+			throw new HttpException('No duration found!', HttpStatus.NOT_FOUND);
+		}
 	}
 }

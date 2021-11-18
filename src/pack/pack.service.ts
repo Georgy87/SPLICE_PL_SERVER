@@ -13,16 +13,9 @@ export class PackService {
 		private fileService: FileService,
 	) {}
 
-	async create(
-		dto: CreatePackDto,
-		picture: Express.Multer.File,
-		audio: Express.Multer.File,
-	) {
+	async create(dto: CreatePackDto, picture: Express.Multer.File, audio: Express.Multer.File) {
 		const audioPath = this.fileService.createFile(FileType.AUDIO, audio);
-		const picturePath = this.fileService.createFile(
-			FileType.IMAGE,
-			picture,
-		);
+		const picturePath = this.fileService.createFile(FileType.IMAGE, picture);
 
 		await this.packModel.create({
 			...dto,
@@ -41,9 +34,7 @@ export class PackService {
 	}
 
 	async getPack(packId: string) {
-		const pack = await this.packModel
-			.findOne({ _id: packId })
-			.populate({ path: 'samples' });
+		const pack = await this.packModel.findOne({ _id: packId }).populate({ path: 'samples' });
 		return pack;
 	}
 }

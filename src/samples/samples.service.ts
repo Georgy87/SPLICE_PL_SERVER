@@ -22,11 +22,17 @@ export class SamplesService {
 
 			const context = new AudioContext();
 
-			context.decodeAudioData(file.buffer, async (buffer) => {
+			context.decodeAudioData(file.buffer, async (buffer: any) => {
 				const audioCoordinates = this.audioService.sampleAudioData(buffer);
 
-				let duration = await this.audioService.getAudioDuration(`http://localhost:5000/${audioPath}`);
-		
+				let duration = await this.audioService.getAudioDuration(
+					`http://localhost:5000/${audioPath}`,
+				);
+
+				// let calcTempo: any = this.audioService.calcTempo(buffer);
+
+				// context.decodeAudioData(`http://localhost:5000/${audioPath}`, calcTempo);
+
 				this.samplesModel.create({
 					sampleName: file.originalname,
 					packId,

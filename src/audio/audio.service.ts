@@ -1,12 +1,14 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { path as ffprobePath } from '@ffprobe-installer/ffprobe';
+//@ts-ignore
+// var MusicTempo = require("music-tempo");
 import * as execa from 'execa';
 
 @Injectable()
 export class AudioService {
 	constructor() {}
 
-	private getFFprobeWrappedExecution(input: string): execa.ExecaChildProcess {
+	getFFprobeWrappedExecution(input: string): execa.ExecaChildProcess {
 		const params = ['-v', 'error', '-show_format', '-show_streams'];
 
 		if (typeof input === 'string') {
@@ -14,7 +16,7 @@ export class AudioService {
 		}
 	}
 
-	private filterData(audioBuffer: AudioBuffer) {
+	filterData(audioBuffer: AudioBuffer) {
 		const rawData = audioBuffer.getChannelData(0);
 
 		const samples = 20000;
@@ -33,7 +35,7 @@ export class AudioService {
 		return filteredData;
 	}
 
-	private normalizeData(filteredData: number[]) {
+	normalizeData(filteredData: number[]) {
 		const multiplier = Math.pow(Math.max(...filteredData), -1);
 		return filteredData.map((n: number) => n * multiplier);
 	}
@@ -51,4 +53,25 @@ export class AudioService {
 			throw new HttpException('No duration found!', HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	// calcTempo = function (buffer: any) {
+	// 	var audioData: any = [];
+	// 	// Take the average of the two channels
+	// 	if (buffer.numberOfChannels == 2) {
+	// 	  var channel1Data = buffer.getChannelData(0);
+	// 	  var channel2Data = buffer.getChannelData(1);
+	// 	  var length = channel1Data.length;
+	// 	  for (var i = 0; i < length; i++) {
+	// 		audioData[i] = (channel1Data[i] + channel2Data[i]) / 2;
+	// 	  }
+	// 	} else {
+	// 	  audioData = buffer.getChannelData(0);
+	// 	}
+	// 	var mt = new MusicTempo(audioData);
+	// 	// console.log(MusicTempo);
+	// 	// console.log( audioData)
+	// 	console.log(mt.tempo);
+	// 	// console.log(mt.beats);
+		
+	// }
 }

@@ -1,5 +1,5 @@
 export class CreatePackDto {
-    readonly trackName; 
+    readonly genre; 
     readonly authorName; 
     readonly packInfo;
 }

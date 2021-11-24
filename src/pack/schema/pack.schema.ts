@@ -7,7 +7,7 @@ export type PackDocument = Pack & Document;
 @Schema({ timestamps: true, toJSON: { virtuals: true } })
 export class Pack {
 	@Prop()
-	trackName: string;
+	genre: string;
 
 	@Prop()
 	authorName: string;
@@ -23,6 +23,9 @@ export class Pack {
 
 	@Prop()
 	audio: string;
+
+	@Prop()
+	userId: mongoose.Schema.Types.ObjectId;
 }
 
 export const PackSchema = SchemaFactory.createForClass(Pack);

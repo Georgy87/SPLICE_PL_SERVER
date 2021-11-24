@@ -33,7 +33,7 @@ export class FileService {
         }
     }
 
-    createStaticFile(type: string, file: Express.Multer.File): string {
+    public createStaticFile(type: string, file: Express.Multer.File): string {
         try {         
             const fileExtension = file.originalname.split('.').pop();
             const fileName = uuid.v4() + '.' + fileExtension;

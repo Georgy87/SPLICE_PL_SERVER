@@ -18,7 +18,7 @@ export class SamplesService {
 
 	async create(files: Array<Express.Multer.File>, packId: string) {
 		files.forEach(async (file: Express.Multer.File) => {
-			const audioPath: string = this.fileService.createFile(FileType.SAMPLES, file);
+			const audioPath: string = this.fileService.createStaticFile(FileType.SAMPLES, file);
 
 			const context = new AudioContext();
 
@@ -30,7 +30,6 @@ export class SamplesService {
 				);
 
 				// let calcTempo: any = this.audioService.calcTempo(buffer);
-
 				// context.decodeAudioData(`http://localhost:5000/${audioPath}`, calcTempo);
 
 				this.samplesModel.create({

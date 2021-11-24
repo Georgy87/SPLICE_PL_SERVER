@@ -14,8 +14,10 @@ export class PackService {
 	) {}
 
 	async create(dto: CreatePackDto, picture: Express.Multer.File, audio: Express.Multer.File) {
-		const audioPath = this.fileService.createFile(FileType.AUDIO, audio);
-		const picturePath = this.fileService.createFile(FileType.IMAGE, picture);
+		// const audioPath = this.fileService.createStaticFile(FileType.AUDIO, audio);
+		// const picturePath = this.fileService.createStaticFile(FileType.IMAGE, picture);
+		const audioPath = await this.fileService.createAwsFile(audio);
+		const picturePath = await this.fileService.createAwsFile(picture);
 
 		await this.packModel.create({
 			...dto,

@@ -14,7 +14,7 @@ export class UsersController {
 	}
 
 	@UseGuards(JwtAuthGuard)
-	@Post('name')
+	@Post('fullname')
 	changeName(@Req() req: any, @Body('fullname') fullname: string) {
 		const userId = req.user.id;
 		return this.userService.changeName(userId, fullname);

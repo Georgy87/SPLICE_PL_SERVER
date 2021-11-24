@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as uuid from 'uuid';
+import { S3 } from 'aws-sdk';
 
 export enum FileType {
     AUDIO = 'audio',
@@ -11,7 +12,28 @@ export enum FileType {
 
 @Injectable()
 export class FileService {
-    createFile(type: string, file: Express.Multer.File): string {
+    public async createAwsFile(file: Express.Multer.File) {
+        try {
+            const { buffer, originalname } = file;
+            const fileExtension = originalname.split('.').pop();
+            const fileName = uuid.v4() + '.' + fileExtension;
+
+            const s3 = new S3();
+            let upload = await s3.upload({
+                Bucket: process.env.BUCKET_NAME,
+                Body: buffer,
+                Key: fileName,
+            });
+
+            const promise = await upload.promise();
+  
+            return promise.Location;
+        } catch (error) {
+            throw new HttpException('Ошибка загрузки файла', HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    createStaticFile(type: string, file: Express.Multer.File): string {
         try {         
             const fileExtension = file.originalname.split('.').pop();
             const fileName = uuid.v4() + '.' + fileExtension;

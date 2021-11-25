@@ -17,7 +17,7 @@ import { CreatePackDto } from './dto/create-pack.dto';
 import { PackService } from './pack.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
-@Controller('/api')
+@Controller('api/packs')
 export class PackController {
 	constructor(private packService: PackService) {}
 
@@ -31,7 +31,7 @@ export class PackController {
 		return this.packService.create(dto, picture?.[0], audio?.[0], userId);
 	}
 
-	@Get('packs')
+	@Get('/')
 	async show() {
 		return this.packService.show();
 	}
@@ -39,5 +39,12 @@ export class PackController {
 	@Get('pack')
 	async getPack(@Query('packId') packId: string) {
 		return this.packService.getPack(packId);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get('user-packs')
+	async showUserPacks(@Req() req: any, ) {
+		const userId = req.user.id;
+		return this.packService.showUserPacks(userId);
 	}
 }

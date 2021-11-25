@@ -24,7 +24,7 @@ export class Pack {
 	@Prop()
 	audio: string;
 
-	@Prop()
+	@Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
 	userId: mongoose.Schema.Types.ObjectId;
 }
 

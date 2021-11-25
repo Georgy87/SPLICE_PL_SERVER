@@ -40,4 +40,9 @@ export class PackService {
 		const pack = await this.packModel.findOne({ _id: packId }).populate({ path: 'samples' });
 		return pack;
 	}
+
+	async showUserPacks(userId: any) {
+		const packs = await this.packModel.find({ userId: userId });
+		return packs;
+	}
 }

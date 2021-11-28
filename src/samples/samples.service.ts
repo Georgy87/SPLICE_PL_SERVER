@@ -18,14 +18,18 @@ export class SamplesService {
 
 	async create(files: Array<Express.Multer.File>, packId: string) {
 		files.forEach(async (file: Express.Multer.File) => {
+			// const audioPath: string = await this.fileService.createAwsFile(file);
 			const audioPath: string = this.fileService.createStaticFile(FileType.SAMPLES, file);
-
 			const context = new AudioContext();
 
 			context.decodeAudioData(file.buffer, async (buffer: any) => {
 				const audioCoordinates = this.audioService.sampleAudioData(buffer);
 
-				let duration = await this.audioService.getAudioDuration(
+				// const duration = await this.audioService.getAudioDuration(
+				// 	`${audioPath}`,
+				// );
+
+				const duration = await this.audioService.getAudioDuration(
 					`http://localhost:5000/${audioPath}`,
 				);
 
@@ -41,5 +45,11 @@ export class SamplesService {
 				});
 			});
 		});
+	}
+
+	async setLike(userId: string, sampleId: string) {
+		await this.samplesModel.updateOne({ _id: sampleId }, { $push: { likes: userId } });
+		// const samples = this.samplesModel.find({ packId })
+		return userId;
 	}
 }

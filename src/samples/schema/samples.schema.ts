@@ -20,6 +20,9 @@ export class Samples {
 
 	@Prop()
 	duration: number;
+
+	@Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+	likes: mongoose.Schema.Types.ObjectId[];
 }
 
 export const SamplesSchema = SchemaFactory.createForClass(Samples);

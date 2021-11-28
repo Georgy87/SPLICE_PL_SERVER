@@ -4,13 +4,16 @@ import * as mongoose from 'mongoose';
 
 export type PackDocument = Pack & Document;
 
-@Schema({ timestamps: true, toJSON: { virtuals: true } })
+@Schema({
+	timestamps: true,
+	toJSON: { virtuals: true },
+})
 export class Pack {
 	@Prop()
 	genre: string;
 
 	@Prop()
-	authorName: string;
+	name: string;
 
 	@Prop()
 	packInfo: string;
@@ -29,6 +32,8 @@ export class Pack {
 }
 
 export const PackSchema = SchemaFactory.createForClass(Pack);
+
+// PackSchema.index({ genre: 'text', name: 'text' });
 
 PackSchema.virtual('samples', {
 	ref: 'Samples',

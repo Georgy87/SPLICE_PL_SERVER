@@ -43,8 +43,13 @@ export class PackController {
 
 	@UseGuards(JwtAuthGuard)
 	@Get('user-packs')
-	async showUserPacks(@Req() req: any, ) {
+	async showUserPacks(@Req() req: any) {
 		const userId = req.user.id;
 		return this.packService.showUserPacks(userId);
+	}
+
+	@Get('search-packs')
+	async searchPack(@Query('search') search: string) {
+		return this.packService.searchPack(search);
 	}
 }

@@ -1,5 +1,5 @@
 export class CreatePackDto {
     readonly genre; 
-    readonly authorName; 
+    readonly name; 
     readonly packInfo;
 }

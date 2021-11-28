@@ -13,11 +13,16 @@ export class PackService {
 		private fileService: FileService,
 	) {}
 
-	async create(dto: CreatePackDto, picture: Express.Multer.File, audio: Express.Multer.File, userId: string) {
-		// const audioPath = this.fileService.createStaticFile(FileType.AUDIO, audio);
-		// const picturePath = this.fileService.createStaticFile(FileType.IMAGE, picture);
-		const audioPath = await this.fileService.createAwsFile(audio);
-		const picturePath = await this.fileService.createAwsFile(picture);
+	async create(
+		dto: CreatePackDto,
+		picture: Express.Multer.File,
+		audio: Express.Multer.File,
+		userId: any,
+	) {
+		const audioPath = this.fileService.createStaticFile(FileType.AUDIO, audio);
+		const picturePath = this.fileService.createStaticFile(FileType.IMAGE, picture);
+		// const audioPath = await this.fileService.createAwsFile(audio);
+		// const picturePath = await this.fileService.createAwsFile(picture);
 
 		await this.packModel.create({
 			...dto,
@@ -27,7 +32,7 @@ export class PackService {
 			userId,
 		});
 
-		const packs = await this.packModel.find();
+		const packs = await this.packModel.find({ userId: userId });
 		return packs;
 	}
 
@@ -38,11 +43,20 @@ export class PackService {
 
 	async getPack(packId: string) {
 		const pack = await this.packModel.findOne({ _id: packId }).populate({ path: 'samples' });
+
 		return pack;
 	}
 
 	async showUserPacks(userId: any) {
 		const packs = await this.packModel.find({ userId: userId });
+		return packs;
+	}
+
+	async searchPack(search: string) {
+		const packs = await this.packModel.find({
+			$or: [{ name: new RegExp(search, 'i') }, { genre: new RegExp(search, 'i') }],
+		});
+		
 		return packs;
 	}
 }

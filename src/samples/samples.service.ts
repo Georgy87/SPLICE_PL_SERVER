@@ -49,7 +49,11 @@ export class SamplesService {
 
 	async setLike(userId: string, sampleId: string) {
 		await this.samplesModel.updateOne({ _id: sampleId }, { $push: { likes: userId } });
-		// const samples = this.samplesModel.find({ packId })
+		return userId;
+	}
+
+	async deleteLike(userId: string, sampleId: string) {
+		await this.samplesModel.updateOne({ _id: sampleId }, { $pull: { likes: userId } });
 		return userId;
 	}
 }

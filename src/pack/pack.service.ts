@@ -41,9 +41,14 @@ export class PackService {
 		return packs;
 	}
 
-	async getPack(packId: string) {
-		const pack = await this.packModel.findOne({ _id: packId }).populate({ path: 'samples' });
-
+	async getPack(packId: string, userId: string) {
+		const pack = await this.packModel.findOne({ _id: packId }).populate({
+			path: 'samples',
+			populate: {
+				path: 'likes',
+				match: { _id: userId }
+			},
+		});
 		return pack;
 	}
 
@@ -56,7 +61,7 @@ export class PackService {
 		const packs = await this.packModel.find({
 			$or: [{ name: new RegExp(search, 'i') }, { genre: new RegExp(search, 'i') }],
 		});
-		
+
 		return packs;
 	}
 }

@@ -4,7 +4,7 @@ import * as mongoose from 'mongoose';
 
 export type SamplesDocument = Samples & Document;
 
-@Schema()
+@Schema({toJSON: { virtuals: true }})
 export class Samples {
 	@Prop()
 	sampleName: string;
@@ -21,7 +21,7 @@ export class Samples {
 	@Prop()
 	duration: number;
 
-	@Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+	@Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }])
 	likes: mongoose.Schema.Types.ObjectId[];
 }
 

@@ -34,4 +34,11 @@ export class SamplesController {
 		const userId = req.user.id;
 		return this.samplesService.setLike(userId, sampleId);
 	}
+
+	@UseGuards(JwtAuthGuard)
+	@Delete('dislike')
+	deleteLike(@Req() req: any, @Query('sampleId') sampleId: string) {
+		const userId = req.user.id;
+		return this.samplesService.deleteLike(userId, sampleId);
+	}
 }

@@ -17,7 +17,7 @@ import { UsersService } from '../users/users.service';
 		UsersModule,
 		PassportModule,
 		JwtModule.register({
-			secret: 'splice-platform',
+			secret: process.env.SECRET_KEY || 'JWT-SECRET-KEY',
 			signOptions: { expiresIn: '30d' },
 		}),
 	],

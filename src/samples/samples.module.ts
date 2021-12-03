@@ -7,12 +7,16 @@ import { FileService } from '../file/file.service';
 import { SamplesController } from './samples.controller';
 import { SamplesService } from './samples.service';
 import { Samples, SamplesSchema } from './schema/samples.schema';
+import { Pack, PackSchema } from '../pack/schema/pack.schema';
 
 @Module({
 	imports: [
-		MongooseModule.forFeature([{ name: Samples.name, schema: SamplesSchema }]),
+		MongooseModule.forFeature([
+			{ name: Samples.name, schema: SamplesSchema },
+			{ name: Pack.name, schema: PackSchema },
+		]),
 		JwtModule.register({
-			secret: 'splice-platform',
+			secret: process.env.SECRET_KEY || 'JWT-SECRET-KEY',
 			signOptions: { expiresIn: '30d' },
 		}),
 	],

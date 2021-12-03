@@ -29,6 +29,9 @@ export class Pack {
 
 	@Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
 	userId: mongoose.Schema.Types.ObjectId;
+
+	@Prop()
+	update: boolean;
 }
 
 export const PackSchema = SchemaFactory.createForClass(Pack);

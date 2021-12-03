@@ -10,7 +10,7 @@ import { JwtModule } from '@nestjs/jwt';
 	imports: [
 		MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
 		JwtModule.register({
-			secret: 'splice-platform',
+			secret: process.env.SECRET_KEY || 'JWT-SECRET-KEY',
 			signOptions: { expiresIn: '30d' },
 		}),
 	],

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Req, UseGuards, Put } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
@@ -7,14 +7,14 @@ export class UsersController {
 	constructor(private readonly userService: UsersService) {}
 
 	@UseGuards(JwtAuthGuard)
-	@Post('email')
+	@Put('email')
 	changeEmail(@Req() req: any, @Body('email') email: string) {
 		const userId = req.user.id;
 		return this.userService.changeEmail(userId, email);
 	}
 
 	@UseGuards(JwtAuthGuard)
-	@Post('fullname')
+	@Put('fullname')
 	changeName(@Req() req: any, @Body('fullname') fullname: string) {
 		const userId = req.user.id;
 		return this.userService.changeName(userId, fullname);

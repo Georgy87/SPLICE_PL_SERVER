@@ -10,8 +10,9 @@ import {
 	Query,
 	UseGuards,
 	Req,
+	UploadedFile,
 } from '@nestjs/common';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { SamplesService } from './samples.service';
 
@@ -36,9 +37,15 @@ export class SamplesController {
 	}
 
 	@UseGuards(JwtAuthGuard)
-	@Delete('dislike')
+	@Delete('like')
 	deleteLike(@Req() req: any, @Query('sampleId') sampleId: string) {
 		const userId = req.user.id;
 		return this.samplesService.deleteLike(userId, sampleId);
+	}
+
+	@UseInterceptors(FileInterceptor('file'))
+	@Post('images')
+	setCanvasImage(@UploadedFile() file: Express.Multer.File, @Query('sampleId') sampleId: string) {
+		return this.samplesService.setCanvasImage(file, sampleId);
 	}
 }

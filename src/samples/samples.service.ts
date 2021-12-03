@@ -7,11 +7,13 @@ import { AudioContext } from 'web-audio-api';
 import { AudioService } from '../audio/audio.service';
 import { FileService, FileType } from '../file/file.service';
 import { Samples, SamplesDocument } from './schema/samples.schema';
+import { Pack, PackDocument } from 'src/pack/schema/pack.schema';
 
 @Injectable()
 export class SamplesService {
 	constructor(
 		@InjectModel(Samples.name) private samplesModel: Model<SamplesDocument>,
+		@InjectModel(Pack.name) private packModel: Model<PackDocument>,
 		private fileService: FileService,
 		private audioService: AudioService,
 	) {}
@@ -24,7 +26,7 @@ export class SamplesService {
 
 			context.decodeAudioData(file.buffer, async (buffer: any) => {
 				const audioCoordinates = this.audioService.sampleAudioData(buffer);
-
+				const audioCoordinatesJSON = JSON.stringify(audioCoordinates);
 				// const duration = await this.audioService.getAudioDuration(
 				// 	`${audioPath}`,
 				// );
@@ -40,11 +42,20 @@ export class SamplesService {
 					sampleName: file.originalname,
 					packId,
 					audio: audioPath,
-					audioCoordinates,
+					audioCoordinates: audioCoordinatesJSON,
 					duration,
 				});
 			});
 		});
+
+		await this.packModel.updateOne(
+			{ _id: packId },
+			{
+				$set: {
+					update: true,
+				},
+			},
+		);
 	}
 
 	async setLike(userId: string, sampleId: string) {
@@ -55,5 +66,10 @@ export class SamplesService {
 	async deleteLike(userId: string, sampleId: string) {
 		await this.samplesModel.updateOne({ _id: sampleId }, { $pull: { likes: userId } });
 		return userId;
+	}
+
+	async setCanvasImage(file: Express.Multer.File, sampleId: string) {
+		const audioPath: string = this.fileService.createStaticFile(FileType.CANVAS_IMAGE, file);
+		await this.samplesModel.updateMany({ _id: sampleId }, { $set: { canvasImage: audioPath } });
 	}
 }

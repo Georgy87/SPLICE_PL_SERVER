@@ -4,7 +4,7 @@ import * as mongoose from 'mongoose';
 
 export type SamplesDocument = Samples & Document;
 
-@Schema({toJSON: { virtuals: true }})
+@Schema({ toJSON: { virtuals: true } })
 export class Samples {
 	@Prop()
 	sampleName: string;
@@ -23,6 +23,15 @@ export class Samples {
 
 	@Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }])
 	likes: mongoose.Schema.Types.ObjectId[];
+
+	@Prop()
+	canvasImage: string;
 }
 
 export const SamplesSchema = SchemaFactory.createForClass(Samples);
+
+// SamplesSchema.virtual('audioCoordinatesParse').get(function () {
+// 	if (this.audioCoordinates) {
+// 		return JSON.parse(this.audioCoordinates);
+// 	}
+// });

@@ -8,6 +8,7 @@ export enum FileType {
     AUDIO = 'audio',
     IMAGE = 'image',
     SAMPLES = 'samples',
+    CANVAS_IMAGE = 'canvas_image',
 }
 
 @Injectable()

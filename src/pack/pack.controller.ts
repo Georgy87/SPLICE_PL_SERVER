@@ -1,7 +1,6 @@
 import {
 	Body,
 	Controller,
-	Delete,
 	Get,
 	Param,
 	Post,
@@ -10,6 +9,7 @@ import {
 	Query,
 	UseGuards,
 	Req,
+	Put
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 
@@ -53,5 +53,11 @@ export class PackController {
 	@Get('search-packs')
 	async searchPack(@Query('search') search: string) {
 		return this.packService.searchPack(search);
+	}
+
+	@Put('update')
+	async update(@Query('update') update: boolean, @Query('packId') packId: string) {
+		console.log(update, packId)
+		return this.packService.update(update, packId);
 	}
 }

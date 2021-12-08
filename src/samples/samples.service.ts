@@ -18,44 +18,41 @@ export class SamplesService {
 		private audioService: AudioService,
 	) {}
 
-	async create(files: Array<Express.Multer.File>, packId: string) {
-		files.forEach(async (file: Express.Multer.File) => {
-			// const audioPath: string = await this.fileService.createAwsFile(file);
-			const audioPath: string = this.fileService.createStaticFile(FileType.SAMPLES, file);
-			const context = new AudioContext();
+	async create(
+		image: Express.Multer.File,
+		audio: Express.Multer.File,
+		packId: string,
+		coordinates: string,
+	) {
+		// const audioPath: string = await this.fileService.createAwsFile(file);
 
-			context.decodeAudioData(file.buffer, async (buffer: any) => {
-				const audioCoordinates = this.audioService.sampleAudioData(buffer);
-				const audioCoordinatesJSON = JSON.stringify(audioCoordinates);
-				// const duration = await this.audioService.getAudioDuration(
-				// 	`${audioPath}`,
-				// );
+		const imagePath: string = this.fileService.createStaticFile(FileType.CANVAS_IMAGE, image);
+		const audioPath = this.fileService.createStaticFile(FileType.AUDIO, audio);
 
-				const duration = await this.audioService.getAudioDuration(
-					`http://localhost:5000/${audioPath}`,
-				);
+		const duration = await this.audioService.getAudioDuration(
+			`http://localhost:5000/${audioPath}`,
+		);
 
-				// let calcTempo: any = this.audioService.calcTempo(buffer);
-				// context.decodeAudioData(`http://localhost:5000/${audioPath}`, calcTempo);
-
-				this.samplesModel.create({
-					sampleName: file.originalname,
-					packId,
-					audio: audioPath,
-					audioCoordinates: audioCoordinatesJSON,
-					duration,
-				});
-			});
+		await this.samplesModel.create({
+			sampleName: audio.originalname,
+			packId,
+			audio: audioPath,
+			audioCoordinates: coordinates,
+			duration,
+			canvasImage: imagePath,
 		});
 
-		await this.packModel.updateOne(
-			{ _id: packId },
-			{
-				$set: {
-					update: true,
-				},
-			},
-		);
+		// await this.packModel.updateOne(
+		// 	{ _id: packId },
+		// 	{
+		// 		$set: {
+		// 			update: true,
+		// 		},
+		// 	},
+		// );
+		return {
+			status: 'SUCCESS',
+		};
 	}
 
 	async setLike(userId: string, sampleId: string) {

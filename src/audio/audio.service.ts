@@ -19,7 +19,7 @@ export class AudioService {
 	filterData(audioBuffer: AudioBuffer) {
 		const rawData = audioBuffer.getChannelData(0);
 
-		const samples = 20000;
+		const samples = 150;
 		const blockSize = Math.floor(rawData.length / samples);
 		const filteredData = [];
 
@@ -36,9 +36,9 @@ export class AudioService {
 	}
 
 	normalizeData(filteredData: number[]) {
-		const multiplier = 50 / Math.max(...filteredData);
+		const multiplier = 36 / Math.max(...filteredData);
 		// const multiplier = Math.pow(Math.max(...filteredData), -1);
-		return filteredData.map((n: number) => (n * multiplier).toFixed());
+		return filteredData.map((n: number) => ((n * multiplier) + 1).toFixed());
 	}
 
 	sampleAudioData(buffer) {
@@ -73,6 +73,5 @@ export class AudioService {
 	// 	// console.log( audioData)
 	// 	console.log(mt.tempo);
 	// 	// console.log(mt.beats);
-		
 	// }
 }

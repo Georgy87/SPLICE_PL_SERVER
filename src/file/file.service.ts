@@ -27,7 +27,6 @@ export class FileService {
             });
 
             const promise = await upload.promise();
-  
             return promise.Location;
         } catch (error) {
             throw new HttpException('Ошибка загрузки файла', HttpStatus.INTERNAL_SERVER_ERROR);

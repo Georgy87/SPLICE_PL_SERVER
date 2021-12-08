@@ -20,13 +20,16 @@ import { SamplesService } from './samples.service';
 export class SamplesController {
 	constructor(private samplesService: SamplesService) {}
 
+	@UseInterceptors(FileFieldsInterceptor([{ name: 'image' }, { name: 'audio' }]))
 	@Post('/')
-	@UseInterceptors(FilesInterceptor('files'))
 	uploadFile(
-		@UploadedFiles() files: Array<Express.Multer.File>,
+		@UploadedFiles() files,
 		@Query('packId') packId: string,
+		@Body('coordinates') coordinates: string,
 	) {
-		return this.samplesService.create(files, packId);
+		const { image, audio } = files;
+	
+		return this.samplesService.create(image[0], audio[0], packId, coordinates);
 	}
 
 	@UseGuards(JwtAuthGuard)

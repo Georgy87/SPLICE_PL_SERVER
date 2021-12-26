@@ -45,10 +45,4 @@ export class SamplesController {
 		const userId = req.user.id;
 		return this.samplesService.deleteLike(userId, sampleId);
 	}
-
-	@UseInterceptors(FileInterceptor('file'))
-	@Post('images')
-	setCanvasImage(@UploadedFile() file: Express.Multer.File, @Query('sampleId') sampleId: string) {
-		return this.samplesService.setCanvasImage(file, sampleId);
-	}
 }

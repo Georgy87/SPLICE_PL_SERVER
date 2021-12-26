@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-//@ts-ignore
-import { AudioContext } from 'web-audio-api';
 
 import { AudioService } from '../audio/audio.service';
 import { FileService, FileType } from '../file/file.service';
@@ -42,14 +40,14 @@ export class SamplesService {
 			canvasImage: imagePath,
 		});
 
-		// await this.packModel.updateOne(
-		// 	{ _id: packId },
-		// 	{
-		// 		$set: {
-		// 			update: true,
-		// 		},
-		// 	},
-		// );
+		await this.packModel.updateOne(
+			{ _id: packId },
+			{
+				$set: {
+					update: true,
+				},
+			},
+		);
 		return {
 			status: 'SUCCESS',
 		};
@@ -63,10 +61,5 @@ export class SamplesService {
 	async deleteLike(userId: string, sampleId: string) {
 		await this.samplesModel.updateOne({ _id: sampleId }, { $pull: { likes: userId } });
 		return userId;
-	}
-
-	async setCanvasImage(file: Express.Multer.File, sampleId: string) {
-		const audioPath: string = this.fileService.createStaticFile(FileType.CANVAS_IMAGE, file);
-		await this.samplesModel.updateMany({ _id: sampleId }, { $set: { canvasImage: audioPath } });
 	}
 }

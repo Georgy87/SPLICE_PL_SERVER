@@ -13,6 +13,7 @@ import {
 	UploadedFile,
 } from '@nestjs/common';
 import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { SamplesService } from './samples.service';
 
@@ -28,7 +29,7 @@ export class SamplesController {
 		@Body('coordinates') coordinates: string,
 	) {
 		const { image, audio } = files;
-	
+
 		return this.samplesService.create(image[0], audio[0], packId, coordinates);
 	}
 
@@ -44,5 +45,19 @@ export class SamplesController {
 	deleteLike(@Req() req: any, @Query('sampleId') sampleId: string) {
 		const userId = req.user.id;
 		return this.samplesService.deleteLike(userId, sampleId);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Post('category')
+	setCategory(@Query() query: { sampleId: string; category: string }) {
+		const { sampleId, category } = query;
+		return this.samplesService.setCategory(sampleId, category);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Post('bpm')
+	setBpm(@Query() query: { sampleId: string; bpm: number }) {
+		const { sampleId, bpm } = query;
+		return this.samplesService.setBpm(sampleId, bpm);
 	}
 }

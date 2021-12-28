@@ -26,6 +26,12 @@ export class Samples {
 
 	@Prop()
 	canvasImage: string;
+
+	@Prop()
+	bpm: number;
+
+	@Prop()
+	category: string;
 }
 
 export const SamplesSchema = SchemaFactory.createForClass(Samples);

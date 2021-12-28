@@ -44,11 +44,15 @@ export class PackService {
 	async getPack(packId: string, userId: string) {
 		const pack = await this.packModel.findOne({ _id: packId }).populate({
 			path: 'samples',
+			// match: { sampleName: '1.4 Изумление(+10сек).wav' },
 			populate: {
 				path: 'likes',
 				match: { _id: userId },
 			},
 		});
+		
+		console.log(pack);
+	
 		return pack;
 	}
 
@@ -65,7 +69,6 @@ export class PackService {
 	}
 
 	async update(update: boolean, packId: string) {
-		console.log(update)
 		await this.packModel.updateOne(
 			{
 				_id: packId,

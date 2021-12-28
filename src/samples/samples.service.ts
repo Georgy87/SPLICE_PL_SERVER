@@ -62,4 +62,18 @@ export class SamplesService {
 		await this.samplesModel.updateOne({ _id: sampleId }, { $pull: { likes: userId } });
 		return userId;
 	}
+
+	async setCategory(sampleId: string, category: string) {
+		await this.samplesModel.updateOne({ _id: sampleId }, { $set: { category } });
+		return {
+			status: 'SUCCESS',
+		};
+	}
+
+	async setBpm(sampleId: string, bpm: number) {
+		await this.samplesModel.updateOne({ _id: sampleId }, { $set: { bpm } });
+		return {
+			status: 'SUCCESS',
+		};
+	}
 }

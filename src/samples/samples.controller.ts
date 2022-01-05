@@ -26,11 +26,12 @@ export class SamplesController {
 	uploadFile(
 		@UploadedFiles() files,
 		@Query('packId') packId: string,
+		@Query('fileId') fileId: string,
 		@Body('coordinates') coordinates: string,
 	) {
 		const { image, audio } = files;
 
-		return this.samplesService.create(image[0], audio[0], packId, coordinates);
+		return this.samplesService.create(image[0], audio[0], packId, coordinates, fileId);
 	}
 
 	@UseGuards(JwtAuthGuard)

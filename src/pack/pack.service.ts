@@ -41,19 +41,27 @@ export class PackService {
 		return packs;
 	}
 
-	async getPack(packId: string, userId: string) {
-		const pack = await this.packModel.findOne({ _id: packId }).populate({
-			path: 'samples',
-			// match: { sampleName: '1.4 Изумление(+10сек).wav' },
-			populate: {
-				path: 'likes',
-				match: { _id: userId },
-			},
-		});
-		
-		console.log(pack);
-	
-		return pack;
+	async getPack(packId: string, tag: string | null, userId: string) {
+		if (tag != 'null') {
+			const pack = await this.packModel.findOne({ _id: packId }).populate({
+				path: 'samples',
+				match: { category: tag },
+				populate: {
+					path: 'likes',
+					match: { _id: userId },
+				},
+			});
+			return pack;
+		} else {
+			const pack = await this.packModel.findOne({ _id: packId }).populate({
+				path: 'samples',
+				populate: {
+					path: 'likes',
+					match: { _id: userId },
+				},
+			});
+			return pack;
+		}
 	}
 
 	async showUserPacks(userId: any) {

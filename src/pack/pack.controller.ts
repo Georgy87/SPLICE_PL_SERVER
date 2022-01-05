@@ -9,7 +9,7 @@ import {
 	Query,
 	UseGuards,
 	Req,
-	Put
+	Put,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 
@@ -25,7 +25,7 @@ export class PackController {
 	@Post('pack')
 	@UseInterceptors(FileFieldsInterceptor([{ name: 'picture' }, { name: 'audio' }]))
 	@Post()
-	create(@Req() req: any, @UploadedFiles() files, @Body() dto: CreatePackDto,) {
+	create(@Req() req: any, @UploadedFiles() files, @Body() dto: CreatePackDto) {
 		const userId = req.user.id;
 		const { picture, audio } = files;
 		return this.packService.create(dto, picture?.[0], audio?.[0], userId);
@@ -38,9 +38,11 @@ export class PackController {
 
 	@UseGuards(JwtAuthGuard)
 	@Get('pack')
-	async getPack(@Query('packId') packId: string, @Req() req: any) {
+	async getPack(@Query() query: { packId: string; tag: string | null }, @Req() req: any) {
 		const userId = req.user.id;
-		return this.packService.getPack(packId, userId);
+		const { packId, tag } = query;
+		console.log(typeof tag);
+		return this.packService.getPack(packId, tag, userId);
 	}
 
 	@UseGuards(JwtAuthGuard)
@@ -57,7 +59,7 @@ export class PackController {
 
 	@Put('update')
 	async update(@Query('update') update: boolean, @Query('packId') packId: string) {
-		console.log(update, packId)
+		console.log(update, packId);
 		return this.packService.update(update, packId);
 	}
 }

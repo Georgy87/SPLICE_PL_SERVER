@@ -21,7 +21,9 @@ export class SamplesService {
 		audio: Express.Multer.File,
 		packId: string,
 		coordinates: string,
+		fileId: string
 	) {
+		// console.log(fileId);
 		// const audioPath: string = await this.fileService.createAwsFile(file);
 
 		const imagePath: string = this.fileService.createStaticFile(FileType.CANVAS_IMAGE, image);
@@ -40,17 +42,15 @@ export class SamplesService {
 			canvasImage: imagePath,
 		});
 
-		await this.packModel.updateOne(
-			{ _id: packId },
-			{
-				$set: {
-					update: true,
-				},
-			},
-		);
-		return {
-			status: 'SUCCESS',
-		};
+		// await this.packModel.updateOne(
+		// 	{ _id: packId },
+		// 	{
+		// 		$set: {
+		// 			update: true,
+		// 		},
+		// 	},
+		// );
+		return fileId;
 	}
 
 	async setLike(userId: string, sampleId: string) {
@@ -65,15 +65,9 @@ export class SamplesService {
 
 	async setCategory(sampleId: string, category: string) {
 		await this.samplesModel.updateOne({ _id: sampleId }, { $set: { category } });
-		return {
-			status: 'SUCCESS',
-		};
 	}
 
 	async setBpm(sampleId: string, bpm: number) {
 		await this.samplesModel.updateOne({ _id: sampleId }, { $set: { bpm } });
-		return {
-			status: 'SUCCESS',
-		};
 	}
 }

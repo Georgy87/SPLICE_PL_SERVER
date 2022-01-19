@@ -61,4 +61,11 @@ export class SamplesController {
 		const { sampleId, bpm } = query;
 		return this.samplesService.setBpm(sampleId, bpm);
 	}
+
+	@UseGuards(JwtAuthGuard)
+	@Post('bpm')
+	getLiBpm(@Query() query: { sampleId: string; bpm: number }) {
+		const { sampleId, bpm } = query;
+		return this.samplesService.setBpm(sampleId, bpm);
+	}
 }

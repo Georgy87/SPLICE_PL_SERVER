@@ -10,10 +10,11 @@ import { LocalStrategy } from './strategies/local.strategy';
 
 import { User, UserSchema } from '../users/schema/user.schema';
 import { UsersService } from '../users/users.service';
+import { Samples, SamplesSchema } from '../samples/schema/samples.schema';
 
 @Module({
 	imports: [
-		MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+		MongooseModule.forFeature([{ name: User.name, schema: UserSchema }, { name: Samples.name, schema: SamplesSchema },]),
 		UsersModule,
 		PassportModule,
 		JwtModule.register({
@@ -22,7 +23,7 @@ import { UsersService } from '../users/users.service';
 		}),
 	],
 
-	controllers: [AuthController ],
+	controllers: [AuthController],
 	providers: [AuthService, UsersService, LocalStrategy],
 })
 export class AuthModule {}

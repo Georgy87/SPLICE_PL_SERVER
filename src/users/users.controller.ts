@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req, UseGuards, Put } from '@nestjs/common';
+import { Controller, Post, Body, Req, UseGuards, Put, Get } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
@@ -18,5 +18,12 @@ export class UsersController {
 	changeName(@Req() req: any, @Body('fullname') fullname: string) {
 		const userId = req.user.id;
 		return this.userService.changeName(userId, fullname);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get('liked-samples')
+	getLikedSamples(@Req() req: any) {
+		const userId = req.user.id;
+		return this.userService.getLikedSamples(userId);
 	}
 }

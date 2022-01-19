@@ -1,16 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { LoginUserDto } from './dto/login-user.dto';
 
+import { Samples } from '../samples/schema/samples.schema';
+import { LoginUserDto } from './dto/login-user.dto';
 import { User } from './schema/user.schema';
 import { UserDocument } from './schema/user.schema';
-
-// This should be a real class/interface representing a user entity
+import { SamplesDocument } from '../samples/schema/samples.schema';
 
 @Injectable()
 export class UsersService {
-	constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+	constructor(
+		@InjectModel(User.name) private userModel: Model<UserDocument>,
+		@InjectModel(Samples.name) private samplesModel: Model<SamplesDocument>,
+	) {}
 
 	findByCond(cond: LoginUserDto) {
 		return this.userModel.findOne(cond);
@@ -42,5 +45,10 @@ export class UsersService {
 
 		const user = await this.userModel.findOne({ _id: userId });
 		return user;
+	}
+
+	async getLikedSamples(userId: any) {
+		const samples = await this.samplesModel.find({ likes: userId }).select('-audioCoordinates -likes');
+		return samples;
 	}
 }

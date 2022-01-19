@@ -23,7 +23,6 @@ export class SamplesService {
 		coordinates: string,
 		fileId: string
 	) {
-		// console.log(fileId);
 		// const audioPath: string = await this.fileService.createAwsFile(file);
 
 		const imagePath: string = this.fileService.createStaticFile(FileType.CANVAS_IMAGE, image);
@@ -42,14 +41,6 @@ export class SamplesService {
 			canvasImage: imagePath,
 		});
 
-		// await this.packModel.updateOne(
-		// 	{ _id: packId },
-		// 	{
-		// 		$set: {
-		// 			update: true,
-		// 		},
-		// 	},
-		// );
 		return fileId;
 	}
 

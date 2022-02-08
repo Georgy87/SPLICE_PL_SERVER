@@ -11,10 +11,14 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { User, UserSchema } from '../users/schema/user.schema';
 import { UsersService } from '../users/users.service';
 import { Samples, SamplesSchema } from '../samples/schema/samples.schema';
+import { FileService } from '../file/file.service';
 
 @Module({
 	imports: [
-		MongooseModule.forFeature([{ name: User.name, schema: UserSchema }, { name: Samples.name, schema: SamplesSchema },]),
+		MongooseModule.forFeature([
+			{ name: User.name, schema: UserSchema },
+			{ name: Samples.name, schema: SamplesSchema },
+		]),
 		UsersModule,
 		PassportModule,
 		JwtModule.register({
@@ -24,6 +28,6 @@ import { Samples, SamplesSchema } from '../samples/schema/samples.schema';
 	],
 
 	controllers: [AuthController],
-	providers: [AuthService, UsersService, LocalStrategy],
+	providers: [AuthService, UsersService, LocalStrategy, FileService],
 })
 export class AuthModule {}

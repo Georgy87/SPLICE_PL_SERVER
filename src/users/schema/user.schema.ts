@@ -16,6 +16,9 @@ export class User {
 
     @Prop()
     confirm_hash: string;
+
+    @Prop()
+    avatar: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -1,6 +1,7 @@
-import { Controller, Post, Body, Req, UseGuards, Put, Get } from '@nestjs/common';
+import { Controller, Post, Body, Req, UseGuards, Put, Get, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('api/users')
 export class UsersController {
@@ -25,5 +26,13 @@ export class UsersController {
 	getLikedSamples(@Req() req: any) {
 		const userId = req.user.id;
 		return this.userService.getLikedSamples(userId);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Put('avatar')
+	@UseInterceptors(FileInterceptor('file'))
+	createAvatar(@Req() req: any, @UploadedFile() file: Express.Multer.File) {
+		const userId = req.user.id;
+		return this.userService.createAvatar(userId, file);
 	}
 }

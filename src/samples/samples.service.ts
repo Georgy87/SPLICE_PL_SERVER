@@ -32,6 +32,8 @@ export class SamplesService {
 			`http://localhost:5000/${audioPath}`,
 		);
 
+		const pack = await this.packModel.findOne({ _id: packId });
+		
 		await this.samplesModel.create({
 			sampleName: audio.originalname,
 			packId,
@@ -39,6 +41,7 @@ export class SamplesService {
 			audioCoordinates: coordinates,
 			duration,
 			canvasImage: imagePath,
+			packPicture: pack.picture,
 		});
 
 		return fileId;

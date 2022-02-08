@@ -6,6 +6,7 @@ import { User, UserSchema } from './schema/user.schema';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { Samples, SamplesSchema } from 'src/samples/schema/samples.schema';
+import { FileService } from 'src/file/file.service';
 
 @Module({
 	imports: [
@@ -20,7 +21,7 @@ import { Samples, SamplesSchema } from 'src/samples/schema/samples.schema';
 	],
 
 	controllers: [UsersController],
-	providers: [UsersService],
+	providers: [UsersService, FileService],
 	exports: [UsersService],
 })
 export class UsersModule {}

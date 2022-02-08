@@ -9,6 +9,7 @@ export enum FileType {
     IMAGE = 'image',
     SAMPLES = 'samples',
     CANVAS_IMAGE = 'canvas_image',
+    AVATAR = 'avatar',
 }
 
 @Injectable()

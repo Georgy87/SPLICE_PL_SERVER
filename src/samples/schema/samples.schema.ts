@@ -32,6 +32,9 @@ export class Samples {
 
 	@Prop()
 	category: string;
+
+	@Prop()
+	packPicture: string;
 }
 
 export const SamplesSchema = SchemaFactory.createForClass(Samples);

@@ -41,7 +41,7 @@ export class PackController {
 	async getPack(@Query() query: { packId: string; tag: string | null }, @Req() req: any) {
 		const userId = req.user.id;
 		const { packId, tag } = query;
-		console.log(typeof tag);
+	
 		return this.packService.getPack(packId, tag, userId);
 	}
 
@@ -59,7 +59,6 @@ export class PackController {
 
 	@Put('update')
 	async update(@Query('update') update: boolean, @Query('packId') packId: string) {
-		console.log(update, packId);
 		return this.packService.update(update, packId);
 	}
 }

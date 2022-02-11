@@ -6,6 +6,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 @Controller()
 export class UsersController {
 	constructor(private readonly userService: UsersService) {}
+
+	@Get()
 	getHello(): string {
 		return 'Hello World!';
 	}

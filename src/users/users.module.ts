@@ -9,19 +9,9 @@ import { Samples, SamplesSchema } from 'src/samples/schema/samples.schema';
 import { FileService } from 'src/file/file.service';
 
 @Module({
-	imports: [
-		// MongooseModule.forFeature([
-		// 	{ name: User.name, schema: UserSchema },
-		// 	{ name: Samples.name, schema: SamplesSchema },
-		// ]),
-		// JwtModule.register({
-		// 	secret: process.env.SECRET_KEY || 'JWT-SECRET-KEY',
-		// 	signOptions: { expiresIn: '30d' },
-		// }),
-	],
-
+	imports: [],
 	controllers: [UsersController],
 	providers: [UsersService],
-	exports: [UsersService],
+	// exports: [UsersService],
 })
 export class UsersModule {}

@@ -11,6 +11,7 @@ export class UsersController {
 	getHello(): string {
 		return 'Hello World!';
 	}
+	
 	// @UseGuards(JwtAuthGuard)
 	// @Put('email')
 	// changeEmail(@Req() req: any, @Body('email') email: string) {

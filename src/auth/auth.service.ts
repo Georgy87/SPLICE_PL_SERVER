@@ -24,7 +24,7 @@ export class AuthService {
 	async register(dto: CreateUserDto) {
 		try {
 			const { email, fullname, password } = dto;
-			console.log(email, fullname, password)
+	
 			const candidate = await this.userModel.findOne({ email, fullname });
 
 			if (candidate) {

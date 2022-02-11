@@ -10,18 +10,18 @@ import { FileService } from 'src/file/file.service';
 
 @Module({
 	imports: [
-		MongooseModule.forFeature([
-			{ name: User.name, schema: UserSchema },
-			{ name: Samples.name, schema: SamplesSchema },
-		]),
-		JwtModule.register({
-			secret: process.env.SECRET_KEY || 'JWT-SECRET-KEY',
-			signOptions: { expiresIn: '30d' },
-		}),
+		// MongooseModule.forFeature([
+		// 	{ name: User.name, schema: UserSchema },
+		// 	{ name: Samples.name, schema: SamplesSchema },
+		// ]),
+		// JwtModule.register({
+		// 	secret: process.env.SECRET_KEY || 'JWT-SECRET-KEY',
+		// 	signOptions: { expiresIn: '30d' },
+		// }),
 	],
 
 	controllers: [UsersController],
-	providers: [UsersService, FileService],
+	providers: [UsersService],
 	exports: [UsersService],
 })
 export class UsersModule {}

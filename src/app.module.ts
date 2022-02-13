@@ -20,12 +20,12 @@ import { AudioModule } from './audio/audio.module';
 		// 	rootPath: path.resolve(__dirname, 'static'),
 		// }),
 		MongooseModule.forRoot(process.env.MONGO_DB_CONNECT),
-		// PackModule,
+		PackModule,
 		FileModule,
-		// SamplesModule,
+		SamplesModule,
 		AuthModule,
 		UsersModule,
-		// AudioModule,
+		AudioModule,
 	],
 })
 export class AppModule {}

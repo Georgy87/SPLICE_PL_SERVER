@@ -25,22 +25,22 @@ export class SamplesService {
 	) {
 		// const audioPath: string = await this.fileService.createAwsFile(file);
 
-		const imagePath: string = this.fileService.createStaticFile(FileType.CANVAS_IMAGE, image);
-		const audioPath = this.fileService.createStaticFile(FileType.AUDIO, audio);
+		// const imagePath: string = this.fileService.createStaticFile(FileType.CANVAS_IMAGE, image);
+		// const audioPath = this.fileService.createStaticFile(FileType.AUDIO, audio);
 
-		const duration = await this.audioService.getAudioDuration(
-			`http://localhost:5000/${audioPath}`,
-		);
+		// const duration = await this.audioService.getAudioDuration(
+		// 	`http://localhost:5000/${audioPath}`,
+		// );
 
 		const pack = await this.packModel.findOne({ _id: packId });
 		
 		await this.samplesModel.create({
 			sampleName: audio.originalname,
 			packId,
-			audio: audioPath,
+			// audio: audioPath,
 			audioCoordinates: coordinates,
-			duration,
-			canvasImage: imagePath,
+			// duration,
+			// canvasImage: imagePath,
 			packPicture: pack.picture,
 		});
 

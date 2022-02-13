@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 
-@Controller('api')
+@Controller()
 export class AuthController {
 	constructor(private readonly authService: AuthService) {}
 
@@ -24,7 +24,6 @@ export class AuthController {
     @Get('auth')
     auth(@Req() req: any) {
 		const userId = req.user.id;
-		console.log(userId);
         return this.authService.auth(userId);
     }
 }

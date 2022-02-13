@@ -3,10 +3,15 @@ import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-@Controller('api/users')
+@Controller()
 export class UsersController {
 	constructor(private readonly userService: UsersService) {}
 
+	@Get()
+	getHello(): string {
+		return 'Hello World!';
+	}
+	
 	@UseGuards(JwtAuthGuard)
 	@Put('email')
 	changeEmail(@Req() req: any, @Body('email') email: string) {

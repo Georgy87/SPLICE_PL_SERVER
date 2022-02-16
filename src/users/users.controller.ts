@@ -3,7 +3,7 @@ import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-@Controller()
+@Controller('api/users')
 export class UsersController {
 	constructor(private readonly userService: UsersService) {}
 

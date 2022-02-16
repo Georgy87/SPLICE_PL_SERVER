@@ -11,12 +11,6 @@ export class PackService {
 	constructor(@InjectModel(Pack.name) private packModel: Model<PackDocument>, private fileService: FileService) {}
 
 	async create(dto: CreatePackDto, picture: Express.Multer.File, audio: Express.Multer.File, userId: any) {
-		// const audioPath = this.fileService.createStaticFile(FileType.AUDIO, audio);
-		// const picturePath = this.fileService.createStaticFile(FileType.IMAGE, picture);
-		// const audioPath = await this.fileService.createAwsFile(audio);
-		// const picturePath = await this.fileService.createAwsFile(picture);
-		// const audioPath = this.fileService.createYandexS3File(FileType.AUDIO, audio);
-
 		const picturePath = await this.fileService.uploadYandexS3File(FileType.PACK_IMAGES, picture);
 		const audioPath = await this.fileService.uploadYandexS3File(FileType.PACK_AUDIO, audio);
 

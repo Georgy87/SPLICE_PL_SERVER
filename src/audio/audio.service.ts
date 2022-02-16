@@ -37,7 +37,6 @@ export class AudioService {
 
 	normalizeData(filteredData: number[]) {
 		const multiplier = 36 / Math.max(...filteredData);
-		// const multiplier = Math.pow(Math.max(...filteredData), -1);
 		return filteredData.map((n: number) => ((n * multiplier) + 1).toFixed());
 	}
 

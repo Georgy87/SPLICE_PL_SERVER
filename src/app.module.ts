@@ -16,16 +16,13 @@ import { AudioModule } from './audio/audio.module';
 		ConfigModule.forRoot({
 			isGlobal: true,
 		}),
-		// ServeStaticModule.forRoot({
-		// 	rootPath: path.resolve(__dirname, 'static'),
-		// }),
 		MongooseModule.forRoot(process.env.MONGO_DB_CONNECT),
 		PackModule,
 		FileModule,
 		SamplesModule,
 		AuthModule,
 		UsersModule,
-		AudioModule,
+		// AudioModule,
 	],
 })
 export class AppModule {}

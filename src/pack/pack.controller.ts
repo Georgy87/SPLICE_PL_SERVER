@@ -31,7 +31,7 @@ export class PackController {
 		return this.packService.create(dto, picture?.[0], audio?.[0], userId);
 	}
 
-	@Get('/')
+	@Get()
 	async show() {
 		return this.packService.show();
 	}

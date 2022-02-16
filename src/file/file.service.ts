@@ -3,15 +3,15 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as uuid from 'uuid';
 import { S3 } from 'aws-sdk';
-var EasyYandexS3 = require('easy-yandex-s3');
+
+const EasyYandexS3 = require('easy-yandex-s3');
 
 export enum FileType {
 	PACK_AUDIO = 'PACK-AUDIO',
 	PACK_IMAGES = 'PACK-IMAGES',
-	IMAGE = 'image',
-	SAMPLES = 'samples',
-	CANVAS_IMAGE = 'canvas_image',
-	AVATAR = 'avatar',
+	SAMPLES_AUDIO = 'SAMPLES-AUDIO',
+	CANVAS_IMAGE = 'CANVAS-IMAGE',
+	AVATAR = 'AVATAR',
 }
 
 @Injectable()

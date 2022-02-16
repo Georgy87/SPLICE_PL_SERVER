@@ -17,7 +17,7 @@ import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from '@nestj
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { SamplesService } from './samples.service';
 
-@Controller()
+@Controller('samples')
 export class SamplesController {
 	constructor(private samplesService: SamplesService) {}
 

@@ -17,7 +17,7 @@ import { CreatePackDto } from './dto/create-pack.dto';
 import { PackService } from './pack.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
-@Controller()
+@Controller('packs')
 export class PackController {
 	constructor(private packService: PackService) {}
 

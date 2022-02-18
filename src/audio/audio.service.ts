@@ -3,7 +3,7 @@ import { path as ffprobePath } from '@ffprobe-installer/ffprobe';
 
 
 // var MusicTempo = require("music-tempo");
-import * as execa from 'execa/index';
+import {execa} from 'execa';
 
 @Injectable()
 export class AudioService {

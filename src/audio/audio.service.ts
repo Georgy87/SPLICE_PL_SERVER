@@ -1,8 +1,9 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { path as ffprobePath } from '@ffprobe-installer/ffprobe';
 
+
 // var MusicTempo = require("music-tempo");
-const execa = require('execa');
+import * as execa from 'execa/index';
 
 @Injectable()
 export class AudioService {
@@ -37,7 +38,7 @@ export class AudioService {
 
 	normalizeData(filteredData: number[]) {
 		const multiplier = 36 / Math.max(...filteredData);
-		return filteredData.map((n: number) => (n * multiplier + 1).toFixed());
+		return filteredData.map((n: number) => ((n * multiplier) + 1).toFixed());
 	}
 
 	sampleAudioData(buffer) {

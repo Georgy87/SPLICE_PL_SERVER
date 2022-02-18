@@ -1,9 +1,9 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { path as ffprobePath } from '@ffprobe-installer/ffprobe';
 
-
+//@ts-ignore
 // var MusicTempo = require("music-tempo");
-import {execa} from 'execa';
+// import * as execa from 'execa';
 
 @Injectable()
 export class AudioService {
@@ -13,7 +13,7 @@ export class AudioService {
 		const params = ['-v', 'error', '-show_format', '-show_streams'];
 
 		if (typeof input === 'string') {
-			return execa(ffprobePath, [...params, input]);
+			// return execa(ffprobePath, [...params, input]);
 		}
 	}
 
@@ -47,9 +47,9 @@ export class AudioService {
 
 	async getAudioDuration(input: string) {
 		try {
-			const { stdout } = await this.getFFprobeWrappedExecution(input);
-			const matched = stdout.match(/duration="?(\d*\.\d*)"?/);
-			if (matched && matched[1]) return parseFloat(matched[1]);
+			// const { stdout } = await this.getFFprobeWrappedExecution(input);
+			// const matched = stdout.match(/duration="?(\d*\.\d*)"?/);
+			// if (matched && matched[1]) return parseFloat(matched[1]);
 		} catch (error) {
 			throw new HttpException('No duration found!', HttpStatus.NOT_FOUND);
 		}

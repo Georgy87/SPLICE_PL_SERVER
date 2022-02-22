@@ -25,13 +25,14 @@ export class SamplesController {
 	@Post('/')
 	uploadFile(
 		@UploadedFiles() files,
-		@Query('packId') packId: string,
-		@Query('fileId') fileId: string,
-		@Body('coordinates') coordinates: string,
+		@Query() query: { packId: string, fileId: string },
+		@Body() body: { coordinates: string, duration: string },
 	) {
 		const { image, audio } = files;
+		const { packId, fileId } = query;
+		const { coordinates, duration } = body;
 
-		return this.samplesService.create(image[0], audio[0], packId, coordinates, fileId);
+		return this.samplesService.create(image[0], audio[0], packId, coordinates, fileId, duration);
 	}
 
 	@UseGuards(JwtAuthGuard)

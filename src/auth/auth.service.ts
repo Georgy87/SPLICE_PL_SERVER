@@ -1,12 +1,6 @@
-import {
-	ForbiddenException,
-	HttpException,
-	HttpStatus,
-	Injectable,
-	UnauthorizedException,
-} from '@nestjs/common';
+import { ForbiddenException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId } from 'mongoose';
+import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
@@ -16,22 +10,16 @@ import { User, UserDocument } from '../users/schema/user.schema';
 
 @Injectable()
 export class AuthService {
-	constructor(
-		@InjectModel(User.name) private userModel: Model<UserDocument>,
-		private jwtService: JwtService,
-	) {}
+	constructor(@InjectModel(User.name) private userModel: Model<UserDocument>, private jwtService: JwtService) {}
 
 	async register(dto: CreateUserDto) {
 		try {
 			const { email, fullname, password } = dto;
-	
+
 			const candidate = await this.userModel.findOne({ email, fullname });
 
 			if (candidate) {
-				throw new HttpException(
-					'Пользователь с такой почтой уже существует',
-					HttpStatus.BAD_REQUEST,
-				);
+				throw new HttpException('User with this email already exists', HttpStatus.BAD_REQUEST);
 			}
 
 			const hashPassword = await bcrypt.hash(password, 8);
@@ -49,7 +37,7 @@ export class AuthService {
 				token: this.generateJwtToken(data._id),
 			};
 		} catch (err) {
-			throw new ForbiddenException('Ошибка при регистрации');
+			throw new ForbiddenException('Registration error');
 		}
 	}
 
@@ -60,27 +48,19 @@ export class AuthService {
 
 	async login(dto: CreateUserDto) {
 		const { email } = dto;
-        const user = await this.userModel.findOne({ email });
-        
-        if (!user) {
-            throw new HttpException(
-                'Пользователь не найден',
-                HttpStatus.NOT_FOUND,
-            );
-        }
+		const user = await this.userModel.findOne({ email });
 
 		const token = this.generateJwtToken(user._id);
-	
+
 		return {
 			user,
 			token,
-		}
+			message: 'Success',
+		};
 	}
 
 	async auth(userId: string) {
-		const user = await this.userModel
-			.findOne({ _id: userId })
-			.select('-password');
+		const user = await this.userModel.findOne({ _id: userId }).select('-password');
 		const token = this.generateJwtToken(user._id);
 
 		return { token, user };

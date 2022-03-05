@@ -45,8 +45,8 @@ export class FileService {
 			
 			const s3 = new EasyYandexS3({
 				auth: {
-					accessKeyId: 'ywtRFK7qDztkK-9nRD9Q',
-					secretAccessKey: 'MT6mElyHNxQ1YfUROlkiysGWn80k4HqtcFZ0nULx',
+					accessKeyId: process.env.YANDEX_ACCESS_KEY_ID,
+					secretAccessKey: process.env.YANDEX_SECRET_ACCESS_KEY,
 				},
 				Bucket: 'sample-cloud', 
 				debug: true,

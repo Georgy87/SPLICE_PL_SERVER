@@ -51,7 +51,15 @@ export class UsersService {
 	}
 
 	async getLikedSamples(userId: any) {
-		const samples = await this.samplesModel.find({ likes: userId }).select('-audioCoordinates -likes');
+		const samples = await this.samplesModel.find({ likes: userId }).populate({
+		
+			path: 'samples',
+			populate: {
+				path: 'likes',
+				match: { _id: userId },
+			},
+			
+		});
 		return samples;
 	}
 

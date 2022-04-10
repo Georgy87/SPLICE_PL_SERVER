@@ -32,8 +32,8 @@ export class PackController {
 	}
 
 	@Get()
-	async show() {
-		return this.packService.show();
+	async show(@Query('page') page: string) {
+		return this.packService.show(page);
 	}
 
 	@UseGuards(JwtAuthGuard)

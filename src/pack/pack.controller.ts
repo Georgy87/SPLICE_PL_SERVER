@@ -17,7 +17,7 @@ import { CreatePackDto } from './dto/create-pack.dto';
 import { PackService } from './pack.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
-@Controller('api/packs')
+@Controller('packs')
 export class PackController {
 	constructor(private packService: PackService) {}
 
@@ -31,9 +31,9 @@ export class PackController {
 		return this.packService.create(dto, picture?.[0], audio?.[0], userId);
 	}
 
-	@Get('/')
-	async show() {
-		return this.packService.show();
+	@Get()
+	async show(@Query('page') page: string) {
+		return this.packService.show(page);
 	}
 
 	@UseGuards(JwtAuthGuard)

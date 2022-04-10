@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-file
+
 import { Samples } from '../samples/schema/samples.schema';
 import { LoginUserDto } from './dto/login-user.dto';
 import { User } from './schema/user.schema';
@@ -51,7 +51,15 @@ export class UsersService {
 	}
 
 	async getLikedSamples(userId: any) {
-		const samples = await this.samplesModel.find({ likes: userId }).select('-audioCoordinates -likes');
+		const samples = await this.samplesModel.find({ likes: userId }).populate({
+		
+			path: 'samples',
+			populate: {
+				path: 'likes',
+				match: { _id: userId },
+			},
+			
+		});
 		return samples;
 	}
 

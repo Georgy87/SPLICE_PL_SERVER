@@ -8,7 +8,7 @@ import { FileService, FileType } from 'src/file/file.service';
 
 @Injectable()
 export class PackService {
-	constructor(@InjectModel(Pack.name) private packModel: Model<PackDocument>, private fileService: FileService) {}
+	constructor(@InjectModel(Pack.name) private packModel: Model<PackDocument>, private fileService: FileService) { }
 
 	async create(dto: CreatePackDto, picture: Express.Multer.File, audio: Express.Multer.File, userId: any) {
 		const picturePath = await this.fileService.uploadYandexS3File(FileType.PACK_IMAGES, picture);
@@ -26,8 +26,12 @@ export class PackService {
 		return packs;
 	}
 
-	async show() {
-		const packs = await this.packModel.find();
+	async show(page: string) {
+		const PAGE_SIZE = 5;
+		const pageCount = parseInt(page || "0");
+		const total = await this.packModel.countDocuments({});
+
+		const packs = await this.packModel.find().limit(PAGE_SIZE).skip(PAGE_SIZE * pageCount);
 		return packs;
 	}
 

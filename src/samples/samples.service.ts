@@ -21,12 +21,11 @@ export class SamplesService {
 		audio: Express.Multer.File,
 		packId: string,
 		coordinates: string,
-		fileId: string
+		fileId: string,
+		duration: string,
 	) {
 		const audioPath: string = await this.fileService.uploadYandexS3File(FileType.SAMPLES_AUDIO, audio);
 		const imagePath: string = await this.fileService.uploadYandexS3File(FileType.CANVAS_IMAGE, image);
-
-		const duration = await this.audioService.getAudioDuration(audioPath);
 
 		const pack = await this.packModel.findOne({ _id: packId });
 		

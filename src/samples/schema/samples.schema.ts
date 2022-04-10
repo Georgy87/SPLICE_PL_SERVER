@@ -19,7 +19,7 @@ export class Samples {
 	audioCoordinates: number[];
 
 	@Prop()
-	duration: number;
+	duration: string;
 
 	@Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }])
 	likes: mongoose.Schema.Types.ObjectId[];

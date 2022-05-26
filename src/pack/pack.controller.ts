@@ -33,7 +33,7 @@ export class PackController {
 
 	@Get()
 	async show(@Query('page') page: string) {
-		return this.packService.show(page);
+		return this.packService.showPacks(page);
 	}
 
 	@UseGuards(JwtAuthGuard)
@@ -59,6 +59,13 @@ export class PackController {
 
 	@Put('update')
 	async update(@Query('update') update: boolean, @Query('packId') packId: string) {
-		return this.packService.update(update, packId);
+		return this.packService.updatePack(update, packId);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Put('update-views')
+	async updatePackViews(@Req() req: any, @Query('packId') packId: string) {
+		const userId = req.user.id;
+		return this.packService.updatePackViews(userId, packId);
 	}
 }

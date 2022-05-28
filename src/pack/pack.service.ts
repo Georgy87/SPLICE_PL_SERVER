@@ -5,7 +5,6 @@ import { Model } from 'mongoose';
 import { Pack, PackDocument } from './schema/pack.schema';
 import { CreatePackDto } from './dto/create-pack.dto';
 import { FileService, FileType } from 'src/file/file.service';
-import { packViewsData } from './schema/packViews.shema';
 
 @Injectable()
 export class PackService {
@@ -91,11 +90,11 @@ export class PackService {
 		
 		const date: Date = new Date();
 
-		const monthName = months[date.getMonth()];
-		const yearName = date.getFullYear();
+		const monthName: string = months[date.getMonth()];
+		const yearName: number = date.getFullYear();
 
-		const fieldName = `viewsData.${yearName}.${monthName}.y`;
-
+		const fieldName: string = `viewsData.${yearName}.${monthName}.y`;
+		
 		if (pack) {
 			await this.packModel.updateOne({
 				_id: packId,

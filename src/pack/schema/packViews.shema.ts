@@ -1,145 +1,49 @@
-export type PackViewsDataType = {
-    2018: {
-        January: { x: number, y: number },
-        February: { x: number, y: number },
-        March: { x: number, y: number },
-        April: { x: number, y: number },
-        May: { x: number, y: number },
-        June: { x: number, y: number },
-        July: { x: number, y: number },
-        August: { x: number, y: number },
-        September: { x: number, y: number },
-        October: { x: number, y: number },
-        November: { x: number, y: number },
-        December: { x: number, y: number },
-    },
-    2019: {
-        January: { x: number, y: number },
-        February: { x: number, y: number },
-        March: { x: number, y: number },
-        April: { x: number, y: number },
-        May: { x: number, y: number },
-        June: { x: number, y: number },
-        July: { x: number, y: number },
-        August: { x: number, y: number },
-        September: { x: number, y: number },
-        October: { x: number, y: number },
-        November: { x: number, y: number },
-        December: { x: number, y: number },
-    },
-    2020: {
-        January: { x: number, y: number },
-        February: { x: number, y: number },
-        March: { x: number, y: number },
-        April: { x: number, y: number },
-        May: { x: number, y: number },
-        June: { x: number, y: number },
-        July: { x: number, y: number },
-        August: { x: number, y: number },
-        September: { x: number, y: number },
-        October: { x: number, y: number },
-        November: { x: number, y: number },
-        December: { x: number, y: number },
-    },
-    2021: {
-        January: { x: number, y: number },
-        February: { x: number, y: number },
-        March: { x: number, y: number },
-        April: { x: number, y: number },
-        May: { x: number, y: number },
-        June: { x: number, y: number },
-        July: { x: number, y: number },
-        August: { x: number, y: number },
-        September: { x: number, y: number },
-        October: { x: number, y: number },
-        November: { x: number, y: number },
-        December: { x: number, y: number },
-    },
-    2022: {
-        January: { x: number, y: number },
-        February: { x: number, y: number },
-        March: { x: number, y: number },
-        April: { x: number, y: number },
-        May: { x: number, y: number },
-        June: { x: number, y: number },
-        July: { x: number, y: number },
-        August: { x: number, y: number },
-        September: { x: number, y: number },
-        October: { x: number, y: number },
-        November: { x: number, y: number },
-        December: { x: number, y: number },
-    },
+import { Prop, Schema } from '@nestjs/mongoose';
+
+@Schema()
+class Coords {
+    @Prop()
+    x: number;
+    @Prop()
+    y: number;
 }
 
-export let packViewsData: PackViewsDataType = {
-    2018: {
-        January: { x: 0, y: 0 },
-        February: { x: 20, y: 0 },
-        March: { x: 30, y: 0 },
-        April: { x: 40, y: 0 },
-        May: { x: 50, y: 0 },
-        June: { x: 60, y: 0 },
-        July: { x: 70, y: 0 },
-        August: { x: 80, y: 0 },
-        September: { x: 90, y: 0 },
-        October: { x: 100, y: 0 },
-        November: { x: 110, y: 0 },
-        December: { x: 120, y: 0 },
-    },
-    2019: {
-        January: { x: 0, y: 0 },
-        February: { x: 20, y: 0 },
-        March: { x: 30, y: 0 },
-        April: { x: 40, y: 0 },
-        May: { x: 50, y: 0 },
-        June: { x: 60, y: 0 },
-        July: { x: 70, y: 0 },
-        August: { x: 80, y: 0 },
-        September: { x: 90, y: 0 },
-        October: { x: 100, y: 0 },
-        November: { x: 110, y: 0 },
-        December: { x: 120, y: 0 },
-    },
-    2020: {
-        January: { x: 0, y: 0 },
-        February: { x: 20, y: 0 },
-        March: { x: 30, y: 0 },
-        April: { x: 40, y: 0 },
-        May: { x: 50, y: 0 },
-        June: { x: 60, y: 0 },
-        July: { x: 70, y: 0 },
-        August: { x: 80, y: 0 },
-        September: { x: 90, y: 0 },
-        October: { x: 100, y: 0 },
-        November: { x: 110, y: 0 },
-        December: { x: 120, y: 0 },
-    },
-    2021: {
-        January: { x: 0, y: 0 },
-        February: { x: 20, y: 0 },
-        March: { x: 30, y: 0 },
-        April: { x: 40, y: 0 },
-        May: { x: 50, y: 0 },
-        June: { x: 60, y: 0 },
-        July: { x: 70, y: 0 },
-        August: { x: 80, y: 0 },
-        September: { x: 90, y: 0 },
-        October: { x: 100, y: 0 },
-        November: { x: 110, y: 0 },
-        December: { x: 120, y: 0 },
-    },
-    2022: {
-        January: { x: 0, y: 0 },
-        February: { x: 20, y: 0 },
-        March: { x: 30, y: 0 },
-        April: { x: 40, y: 0 },
-        May: { x: 50, y: 0 },
-        June: { x: 60, y: 0 },
-        July: { x: 70, y: 0 },
-        August: { x: 80, y: 0 },
-        September: { x: 90, y: 0 },
-        October: { x: 100, y: 0 },
-        November: { x: 110, y: 0 },
-        December: { x: 120, y: 0 },
-    }
+@Schema()
+export class ChartData {
+    @Prop()
+    January: Coords;
+
+    @Prop()
+    February: Coords;
+
+    @Prop()
+    March: Coords;
+
+    @Prop()
+    April: Coords;
+
+    @Prop()
+    May: Coords;
+
+    @Prop()
+    June: Coords;
+
+    @Prop()
+    July: Coords;
+
+    @Prop()
+    August: Coords;
+
+    @Prop()
+    September: Coords;
+
+    @Prop()
+    October: Coords;
+
+    @Prop()
+    November: Coords;
+    
+    @Prop()
+    December: Coords;
 }
+

@@ -1,45 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
-import { PackViewsDataType } from './packViews.shema';
+
+import { ChartData } from './packViews.shema';
 
 export type PackDocument = Pack & Document;
-
-@Schema()
-class Coords {
-	@Prop()
-	x: number;
-	@Prop()
-	y: number;
-}
-
-@Schema()
-class ViewsData {
-	@Prop()
-	January: Coords;
-	@Prop()
-	February: Coords;
-	@Prop()
-	March: Coords;
-	@Prop()
-	April: Coords;
-	@Prop()
-	May: Coords;
-	@Prop()
-	June: Coords;
-	@Prop()
-	July: Coords;
-	@Prop()
-	August: Coords;
-	@Prop()
-	September: Coords;
-	@Prop()
-	October: Coords;
-	@Prop()
-	November: Coords;
-	@Prop()
-	December: Coords;
-}
 
 @Schema({
 	timestamps: true,
@@ -71,7 +36,7 @@ export class Pack {
 	update: boolean;
 
 	@Prop()
-	viewsData: ViewsData;
+	viewsData: ChartData;
 }
 
 export const PackSchema = SchemaFactory.createForClass(Pack);

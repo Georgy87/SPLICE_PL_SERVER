@@ -26,13 +26,17 @@ export class PackService {
 		return packs;
 	}
 
-	async show(page: string) {
+	async showPacks(page: string) {
 		const PAGE_SIZE = 5;
 		const pageCount = parseInt(page || "0");
 		const total = await this.packModel.countDocuments({});
+		const totalPages = total / PAGE_SIZE;
+		const packs = await this.packModel.find().select('-createdAt -updatedAt -__v').limit(PAGE_SIZE).skip(PAGE_SIZE * pageCount);
 
-		const packs = await this.packModel.find().limit(PAGE_SIZE).skip(PAGE_SIZE * pageCount);
-		return packs;
+		return {
+			packs,
+			totalPages,
+		}
 	}
 
 	async getPack(packId: string, tag: string | null, userId: string) {
@@ -70,12 +74,36 @@ export class PackService {
 		return packs;
 	}
 
-	async update(update: boolean, packId: string) {
+	async updatePack(update: boolean, packId: string) {
 		await this.packModel.updateOne(
 			{
 				_id: packId,
 			},
 			{ $set: { update } },
 		);
+	}
+
+	async updatePackViews(userId: any, packId: string) {
+		const pack = await this.packModel.findOne({ $or: [{ _id: packId, userId }] });
+
+		const months: string[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		
+		const date: Date = new Date();
+
+		const monthName: string = months[date.getMonth()];
+		const yearName: number = date.getFullYear();
+
+		const fieldName: string = `viewsData.${yearName}.${monthName}.y`;
+		
+		if (pack) {
+			await this.packModel.updateOne({
+				_id: packId,
+			},
+				{
+					$inc: {
+						[fieldName]: 1,
+					}
+				})
+		}
 	}
 }

@@ -42,7 +42,8 @@ export class FileService {
 			const { buffer, originalname } = file;
 			const fileExtension = originalname.split('.').pop();
 			const fileName = uuid.v4() + '.' + fileExtension;
-			
+			console.log(process.env.YANDEX_ACCESS_KEY_ID)
+			console.log(process.env.YANDEX_SECRET_ACCESS_KEY)
 			const s3 = new EasyYandexS3({
 				auth: {
 					accessKeyId: process.env.YANDEX_ACCESS_KEY_ID,

@@ -27,7 +27,7 @@ export class PackService {
 	}
 
 	async showPacks(page: string) {
-		const PAGE_SIZE = 5;
+		const PAGE_SIZE = 10;
 		const pageCount = parseInt(page || "0");
 		const total = await this.packModel.countDocuments({});
 		const totalPages = total / PAGE_SIZE;
